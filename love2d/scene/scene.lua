@@ -8,7 +8,8 @@ function scene.load()
     rotation = 0
     triImage = love.graphics.newImage("images/triskelrang.png")
     
-    character = Character:new()
+    character = CharacterPlayable:new()
+    character:loadSprite()
     character:teleport(50,50)
 end
 
@@ -16,6 +17,7 @@ end
 function scene.update(dt)
     x = x + (dt * 50)
     rotation = rotation + (math.pi * 3 * dt)
+    character:update(dt)
 end
 
 function scene.draw()
