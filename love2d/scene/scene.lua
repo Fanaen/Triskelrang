@@ -1,28 +1,36 @@
 
-require "scene/Character"
-
-scene = {}
+require "scene/CharacterPlayable"
 
 local keyMoveUp     = "z"
 local keyMoveDown   = "s"
 local keyMoveLeft   = "q"
 local keyMoveRight  = "d"
+local keyThrowRight = "e"
+local keyThrowLeft  = "a"
 
-function scene.load()
-    x, y, w, h = 20, 20, 20, 20
-    rotation = 0
-    triImage = love.graphics.newImage("images/triskelrang.png")
-    
-    character = CharacterPlayable:new()
-    character:loadSprite()
-    character:teleport(50,50)
+Scene = {
+  triskelrangs = {},
+  character = {}
+}
+
+-- Constructors --
+function Scene:new (o)
+  o = o or {}
+  setmetatable(o, self)
+  self.__index = self
+  return o
+end
+
+-- Methods --
+function Scene:load()
+    self.triskelrangs = {}
+    self.character = CharacterPlayable:new()
+    self.character:loadSprite()
+    self.character:teleport(50,50)
 end
 
 
-function scene.update(dt)
-    x = x + (dt * 50)
-    rotation = rotation + (math.pi * 3 * dt)
-    
+function Scene:update(dt)    
     local horizontal, vertical = 0, 0
     
     -- Horizontal --
@@ -39,10 +47,24 @@ function scene.update(dt)
       vertical = 1
     end
     
-    character:move(dt, horizontal, vertical)
+    -- Update character --
+    self.character:move(dt, horizontal, vertical)
+    
+    -- Update Triskelrangs --
+    for key, triskelrang in ipairs(self.triskelrangs) do
+      triskelrang:update(dt)
+    end
 end
 
-function scene.draw()
-    love.graphics.draw(triImage, x, y, rotation, 1, 1, triImage:getHeight()/2, triImage:getWidth()/2)
-    character:draw()
+function Scene:draw()
+    self.character:draw()
+    for key, triskelrang in ipairs(self.triskelrangs) do
+      triskelrang:draw()
+    end
+end
+
+function Scene:keypressed(key)
+  if key == keyThrowRight or key == keyThrowLeft then
+    table.insert(self.triskelrangs, self.character:throw())
+  end
 end
