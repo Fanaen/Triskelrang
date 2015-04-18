@@ -112,8 +112,8 @@ end
 function CharacterPlayable:throw(hand)
   local triskelrang = Triskelrang:new()
   
-  triskelrang.x = self.x
-  triskelrang.y = self.y
+  triskelrang.x = self.x + (self.w/2) + (self.horizontal * self.w)
+  triskelrang.y = self.y + (self.h/2) + (self.vertical * self.h)
   print(triskelrang.speedx, self.horizontal, triskelrang.speedy, self.vertical)
   triskelrang.speedx = triskelrang.speedx * self.horizontal
   triskelrang.speedy = triskelrang.speedy * self.vertical
