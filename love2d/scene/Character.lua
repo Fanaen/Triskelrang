@@ -51,16 +51,33 @@ end
 
 function CharacterPlayable:loadSprite()
   -- Init sprite batch --
-  local atlas = love.graphics.newImage("images/druiddown.png")
+  local atlas = love.graphics.newImage("images/druid.png")
   local tileWidth, tileHeight = 25, 43
   local spriteBatch = love.graphics.newSpriteBatch(atlas, 3)
   
+  -- Store A-B-A-C pattern -- 
+  local walkMapping = {}
+  walkMapping[0] = 0
+  walkMapping[1] = 1
+  walkMapping[2] = 0
+  walkMapping[3] = 2
+  
   -- Init sprites
   self.quads = {}
-  self.quads[0] = love.graphics.newQuad(0, 0, 25, 43, atlas:getWidth(), atlas:getHeight())
-  self.quads[1] = love.graphics.newQuad(25, 0, 25, 43, atlas:getWidth(), atlas:getHeight())
-  self.quads[2] = love.graphics.newQuad(0, 0, 25, 43, atlas:getWidth(), atlas:getHeight())
-  self.quads[3] = love.graphics.newQuad(50, 0, 25, 43, atlas:getWidth(), atlas:getHeight())
+  for dir = 0, 3 do
+    self.quads[dir] = {}
+    
+    for walk = 0, table.getn(walkMapping) do
+      self.quads[dir][walk] = love.graphics.newQuad(
+        walkMapping[walk] * tileWidth,  -- x
+        dir * tileHeight,               -- y
+        tileWidth,                      -- Sprite width
+        tileHeight,                     -- Sprite height
+        atlas:getWidth(),               -- Atlas width
+        atlas:getHeight())              -- Atlas height 
+    end
+  end
+  
   
   -- Init other values --
   self.drawable = spriteBatch
@@ -82,7 +99,7 @@ function CharacterPlayable:update(dt)
     end
     
     self.drawable:clear()
-    self.drawable:add(self.quads[self.state])
+    self.drawable:add(self.quads[1][self.state])
   end
   
 end
