@@ -86,8 +86,19 @@ function CharacterPlayable:loadSprite()
   self.drawable:add(self.quads[self.dir][self.state])
 end
 
-function CharacterPlayable:update(dt)
-  print(self.time)
+function CharacterPlayable:updateDirection(horizontal, vertical)
+  if vertical == 1 then -- Down
+    self.dir = 0
+  elseif vertical == -1 then -- Top
+    self.dir = 2
+  elseif horizontal == 1 then -- Left
+    self.dir = 3
+  elseif horizontal == -1 then -- Left
+    self.dir = 1
+  end
+end
+
+function CharacterPlayable:updateState(dt)
   self.time = self.time + dt
   
   if(self.time > 0.25) then
@@ -99,30 +110,25 @@ function CharacterPlayable:update(dt)
     else
       self.state = 0
     end
-    
-    self.drawable:clear()
-    self.drawable:add(self.quads[self.dir][self.state])
   end
+end
+
+function CharacterPlayable:updateSprite()
+  print(self.dir)
+  self.drawable:clear()
+  self.drawable:add(self.quads[self.dir][self.state])
 end
 
 function CharacterPlayable:move(dt, horizontal, vertical)
   
-  -- Update the direction --
-  if vertical == 1 then -- Down
-    self.dir = 0
-  elseif vertical == -1 then -- Top
-    self.dir = 2
-  elseif horizontal == 1 then -- Left
-    self.dir = 1
-  elseif horizontal == -1 then -- Left
-    self.dir = 3
-  end
+  self:updateDirection(horizontal, vertical)
   
   -- Update the sprite --
   if horizontal ~= 0 or vertical ~= 0 then
-    self:update(dt)
+    self:updateState(dt)
   end
   
+  self:updateSprite()
   
   -- Move the character --
   self.x = self.x + (horizontal * dt * self.speed)
