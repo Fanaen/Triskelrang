@@ -24,3 +24,11 @@ function LevelTutorial:setCharacters()
   self:addPNG(SlimeDefault:new(), 400, 400)
   
 end
+
+function LevelTutorial:setMap()
+  
+  -- Background --
+  self:loadBackground("images/text1.png")
+  
+  
+end
