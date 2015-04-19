@@ -37,7 +37,7 @@ function Triskelrang:loadPhysic(world)
 end
 
 -- Methods --
-function Triskelrang:update (dt)
+function Triskelrang:update(dt)
   -- Custom physic --
   -- self.x = self.x + (self.speedx * dt)
   -- self.y = self.y + (self.speedy * dt)
