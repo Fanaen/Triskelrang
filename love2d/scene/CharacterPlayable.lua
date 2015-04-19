@@ -49,6 +49,7 @@ end
 function CharacterPlayable:throw(hand, mouse)
   local triskelrang = Triskelrang:new()
   
+  triskelrang.hand = hand
   triskelrang.x = self.x + (self.w/2) -- + (self.horizontal * self.w)
   triskelrang.y = self.y + (self.h/2) -- + (self.vertical * self.h)
   
@@ -58,7 +59,7 @@ function CharacterPlayable:throw(hand, mouse)
   
   -- Box2D Physic --
   triskelrang:loadPhysic(self.world)
-  triskelrang.body:applyLinearImpulse(self.horizontal * 300, self.vertical * 300)
+  triskelrang.body:applyLinearImpulse(self.horizontal * 100, self.vertical * 100)
   
   return triskelrang
 end

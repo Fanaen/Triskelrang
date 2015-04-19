@@ -9,6 +9,7 @@ Triskelrang = {
   h = 45,
   rotation = 0,
   life = 100,
+  hand = "right",
   speedx = 100,
   speedy = 100,
   image = nil,
@@ -42,6 +43,13 @@ function Triskelrang:update(dt)
   -- self.x = self.x + (self.speedx * dt)
   -- self.y = self.y + (self.speedy * dt)
   self.rotation = self.rotation + (math.pi * 3 * dt)
+  
+  local x, y = self.body:getLinearVelocity()
+  if self.hand == "right" then
+    self.body:applyForce(-y*2, x*2)
+  elseif self.hand == "left" then
+    self.body:applyForce(y*2, -x*2)
+  end
   
   -- Box 2D physic --
   
