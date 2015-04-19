@@ -93,13 +93,13 @@ end
 
 function Character:move(dt, horizontal, vertical)
   
-  self.walkDir = self:mapDirection(horizontal, vertical)
   
   -- Update the sprite --
   if horizontal ~= 0 or vertical ~= 0 then
     self.horizontal = horizontal
     self.vertical = vertical
     self:updateState(dt)
+    self.walkDir = self:mapDirection(horizontal, vertical)
   end
   
   self:updateSprite()
