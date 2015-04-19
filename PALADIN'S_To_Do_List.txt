@@ -1,0 +1,34 @@
+Au cas où vous êtes désoeuvrés pendant que je pionce:
+
+Triskelrang
+
+1 - Le triskelrang devrait de préférence avoir une vitesse en pixels/seconde plutôt qu'une vitesse de rotation, si possible (pour éviter les abus du type (grande spirale = batshit insane speed).
+2 - La vitesse du triskelrang commence à son maximum lors du jet et décélère d'1% de ce maximum chaque 0,2s.
+3 - En cas d'impact, le triskelrang perd 5% de sa vitesse maximale, rebondit (inversion du vecteur de direction) et s'il a touché un ennmi ou le druide, ce dernier subit un léger knockback, un masque de dégâts (xxxx-hurt.png) pendant 1-2 frames. S'il s'agit du druide, il va ensuite clignoter pendant une seconde pour signaler ses frames d'invulnérabilité au joueur (et éviter de se faire overkill). S'il s'agit d'un ennemi, en fait c'est rigolo de les overkill.
+4 - Le triskelrang inflige 1 dégât.
+5 - Si le druide touche un ennemi, il subit des dégâts de la même manière que précédemment.
+6 - Le triskelrang passe au travers du druide durant ses frames d'invulnérabilité.
+7 - Le triskelrang arrêté ne provoque plus de collision, est prend le sprite gris. Peut-être utiliser déjà ce sprite et ces propriétés pour de très faibles vitesses?
+8 - Le principe du triskelrang comme arme non-conventionnelle est que les mouvements du druide (haut/bas/gauche/droite) modifient sa rotation, son amplitude et/ou sa trajectoire. C'est probablement le point qui devra être la plus travaillé ; l'arme doit être compliquée mais satisfaisante à manier (probablement plus rapide/ample par défaut qu'actuellement).
+
+
+GUI
+
+1 - J'ai laissé un mockup d'interface dans les fichiers. Vous pouvez déjà commencer à l'implémenter (en haut de l'écran), il suffit de mettre les objets aux coordonnées où ils se trouvent sur le mockup.
+2 - Le druide commence avec 5 coeurs. Les 5 de droite sont donc invisibles au début du jeu, et des coeurs supplémentaires pourront être découverts dans les niveaux. Quand le druide subit une blessure, remplcer le coeur plein visible le plus à droite par un coeur vide. Quand le druide regagne de la vie, faire l'inverse.
+3 - Le druide commence sans mana. Les 6 orbes bleues sont donc invisibles au début du jeu. Les orbes ont deux frames, respectivement "vide" et "plein".
+4 - Lorsque le druide aura accès à de la mana, elle fonctionnera comme suit: toutes les 0,03s le druide gagne un point de mana. La mana est affichée en une barre de #00ffff derrière le tube transparent. La barre fait 100px de long pour 100 points de mana.
+5 - Les orbes agissent comme des centaines de points de mana. Si le druide devait dépenser X mana en deça de la barre de mana et qu'au moins un orbe est "plein", par la magie des maths l'orbe plein le plus en bas (à droite) devient vide et on ajoute 100-X points de mana à la réserve.
+5 - Lorsque la barre de mana est pleine, si au moins un orbe de mana est "vide", l'orbe vide le plus en haut (à gauche) se met à clignoter très rapidement entre ses deux frames et la couleur de la barre de mana augmente de #080000 toutes les 0,05s.
+6 - Si, tandis que la barre de mana est pleine, de la mana est dépensée, la barre redevient #00ffff.
+7 - Si, tandis que la barre de mana est pleine, sa couleur atteint #ffffff, la barre se vide intégralement et l'orbe clignotant se fixe sur sa frame "plein".
+8 - Le bas de la mini-map affiche le niveau en cours, de 0 à 9.
+9 - La mini-map affiche room.png pour chaque salle déjà visitée et dis-room.png pour la salle en cours, sur une grille de 5x5 salles. A titre d'exemple, voici la disposition des salles du tutoriel (level 0):
+
+OOOOO
+OOXOO
+OXXXO
+OOXOO
+OOOOO
+
+où "X" désigne les salles du niveau.
