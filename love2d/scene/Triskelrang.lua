@@ -8,10 +8,13 @@ Triskelrang = {
   w = 25, 
   h = 45,
   rotation = 0,
-  life = 100, 
+  life = 100,
   speedx = 100,
   speedy = 100,
-  image = nil
+  image = nil,
+  body = {},
+  shape = {},
+  fixture = {}
 }
 
 -- Constructors --
@@ -27,15 +30,25 @@ function Triskelrang:new (o)
   return o
 end
 
--- Methods --
+function Triskelrang:loadPhysic(world)
+  self.body = love.physics.newBody(world, self.x, self.y, "dynamic")
+  self.shape = love.physics.newCircleShape(12)
+  self.fixture = love.physics.newFixture(self.body, self.shape, 2)
+end
 
+-- Methods --
 function Triskelrang:update (dt)
-  self.x = self.x + (self.speedx * dt)
-  self.y = self.y + (self.speedy * dt)
+  -- Custom physic --
+  -- self.x = self.x + (self.speedx * dt)
+  -- self.y = self.y + (self.speedy * dt)
   self.rotation = self.rotation + (math.pi * 3 * dt)
+  
+  -- Box 2D physic --
+  
 end
 
 function Triskelrang:draw ()
-  love.graphics.draw(self.image, self.x, self.y, self.rotation, 1, 1, self.w/2, self.h/2)
+  --love.graphics.circle("fill", self.body:getX(), self.body:getY(), self.shape:getRadius())
+  love.graphics.draw(self.image, self.body:getX(), self.body:getY(), self.rotation, 1, 1, self.w/2, self.h/2)
 end
 

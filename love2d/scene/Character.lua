@@ -9,7 +9,11 @@ Character = {
   h = 43, 
   life = 100, 
   speed = 100,
-  drawable = nil
+  drawable = nil,
+  world = {},
+  body = {},
+  shape = {},
+  fixture = {}
 }
 
 -- Constructors --
@@ -29,5 +33,12 @@ end
 function Character:teleport(x, y)
   self.x = x
   self.y = y
+end
+
+function Character:loadPhysic(world)
+  self.world = world
+  -- self.body = love.physics.newBody(world, self.x, self.y, "dynamic")
+  -- self.shape = love.physics.newCircleShape(10)
+  -- self.fixture = love.physics.newFixture(self.body, self.shape, 2)
 end
 

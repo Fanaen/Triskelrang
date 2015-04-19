@@ -17,3 +17,7 @@ end
 function love.keypressed(key)
   scene:keypressed(key)
 end
+
+function love.mousepressed(x, y, button)
+  scene:mousepressed(x, y, button)
+end

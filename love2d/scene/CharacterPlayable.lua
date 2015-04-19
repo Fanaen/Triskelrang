@@ -109,14 +109,19 @@ function CharacterPlayable:draw()
   love.graphics.draw(self.drawable, self.x, self.y)
 end
 
-function CharacterPlayable:throw(hand)
+function CharacterPlayable:throw(hand, mouse)
   local triskelrang = Triskelrang:new()
   
-  triskelrang.x = self.x + (self.w/2) + (self.horizontal * self.w)
-  triskelrang.y = self.y + (self.h/2) + (self.vertical * self.h)
-  print(triskelrang.speedx, self.horizontal, triskelrang.speedy, self.vertical)
-  triskelrang.speedx = triskelrang.speedx * self.horizontal
-  triskelrang.speedy = triskelrang.speedy * self.vertical
+  triskelrang.x = self.x + (self.w/2) -- + (self.horizontal * self.w)
+  triskelrang.y = self.y + (self.h/2) -- + (self.vertical * self.h)
+  
+  -- Custom physic --
+  -- triskelrang.speedx = triskelrang.speedx * self.horizontal
+  -- triskelrang.speedy = triskelrang.speedy * self.vertical
+  
+  -- Box2D Physic --
+  triskelrang:loadPhysic(self.world)
+  triskelrang.body:applyLinearImpulse(self.horizontal * 300, self.vertical * 300)
   
   return triskelrang
 end
