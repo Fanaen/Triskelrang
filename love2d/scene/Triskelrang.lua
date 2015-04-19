@@ -33,8 +33,11 @@ end
 
 function Triskelrang:loadPhysic(world)
   self.body = love.physics.newBody(world, self.x, self.y, "dynamic")
+  self.body:setFixedRotation(true)
+  self.body:setLinearDamping(0.1)
+  
   self.shape = love.physics.newCircleShape(12)
-  self.fixture = love.physics.newFixture(self.body, self.shape, 2)
+  self.fixture = love.physics.newFixture(self.body, self.shape, 1)
 end
 
 -- Methods --
@@ -56,7 +59,7 @@ function Triskelrang:update(dt)
 end
 
 function Triskelrang:draw ()
-  --love.graphics.circle("fill", self.body:getX(), self.body:getY(), self.shape:getRadius())
+  love.graphics.circle("fill", self.body:getX(), self.body:getY(), self.shape:getRadius())
   love.graphics.draw(self.image, self.body:getX(), self.body:getY(), self.rotation, 1, 1, self.w/2, self.h/2)
 end
 

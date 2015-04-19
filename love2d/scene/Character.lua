@@ -107,11 +107,15 @@ function Character:move(dt, horizontal, vertical)
   -- Move the character --
   self.x = self.x + (horizontal * dt * self.speed)
   self.y = self.y + (vertical * dt * self.speed)
+  self.body:setX(self.x + (self.w / 2))
+  self.body:setY(self.y + (self.h / 2))
 end
 
 function Character:teleport(x, y)
   self.x = x
   self.y = y
+  self.body:setX(self.x + (self.w / 2))
+  self.body:setY(self.y + (self.h / 2))
 end
 
 function Character:nextWalkState()
@@ -131,14 +135,16 @@ function Character:draw()
     love.graphics.setColorMask(0, 0, 100)
     love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
   else
+    love.graphics.polygon("fill", self.body:getWorldPoints(self.shape:getPoints()))
     love.graphics.draw(self.drawable, self.x, self.y)
   end
 end
 
 function Character:loadPhysic(world)
   self.world = world
-  -- self.body = love.physics.newBody(world, self.x, self.y, "dynamic")
-  -- self.shape = love.physics.newCircleShape(10)
-  -- self.fixture = love.physics.newFixture(self.body, self.shape, 2)
+  self.body = love.physics.newBody(world, self.x, self.y, "dynamic")
+  self.body:setFixedRotation(true)
+  self.shape = love.physics.newRectangleShape(0, 0, self.w, self.h)
+  self.fixture = love.physics.newFixture(self.body, self.shape, 20)
 end
 
