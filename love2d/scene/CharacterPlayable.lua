@@ -59,7 +59,18 @@ function CharacterPlayable:throw(hand, mouse)
   
   -- Box2D Physic --
   triskelrang:loadPhysic(self.world)
-  triskelrang.body:applyLinearImpulse(self.horizontal * 100, self.vertical * 100)
+  local forceCoef, force = 100, {x = 0, y = 0}
+  
+  if mouse == nil then
+    force.x = forceCoef * self.horizontal
+    force.y = forceCoef * self.vertical
+  else 
+    local angle = math.atan2((mouse.y - self.y), (mouse.x - self.x))
+    force.x = forceCoef * math.cos(angle)
+    force.y = forceCoef * math.sin(angle)
+  end
+  
+  triskelrang.body:applyLinearImpulse(force.x, force.y)
   
   return triskelrang
 end
