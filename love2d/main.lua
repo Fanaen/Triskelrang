@@ -1,57 +1,64 @@
-
-require "level/Tutorial"
-
--- Methods --
-levels = {}
-levelIndex = -1
+require 'fuccboi/fuccboi'
+local Game = require 'Game'
 
 function love.load()
-  -- Levels declaration --
-  levels[0] = LevelTutorial:new()
-  levels[0]:load()
-  levelIndex = 0
-  
-  -- Levels initialisation --
-  for key, level in ipairs(levels) do -- TODO Fix this
-    level:load()
-  end
+    fg.init()
+
+    game = Game()
+    fg.Gamestate.registerEvents()
+    fg.Gamestate.switch(game)
 end
 
 function love.update(dt)
-  -- Update the current level's state --
-  if levelIndex ~= -1 then
-    levels[levelIndex]:update(dt)
-  end
+    fg.update(dt)
 end
 
 function love.draw()
-  -- Draw the current level's state --
-  if levelIndex ~= -1 then
-    levels[levelIndex]:draw()
-  end
+    fg.draw()
 end
 
--- Events --
-
 function love.keypressed(key)
-  -- Global binding - Next level --
-  if key == "n" and levelIndex < table.getn(levels) then 
-    levelIndex = levelIndex + 1
-    
-  -- Global binding - Previous level -- 
-  elseif key == "p" and levelIndex > 0 then 
-    levelIndex = levelIndex - 1
-    
-  -- Specific binding - Transfer event to the level -- 
-  elseif levelIndex ~= -1 then
-    levels[levelIndex]:keypressed(key)
-  end
+    fg.keypressed(key)
+end
+
+function love.keyreleased(key)
+    fg.keyreleased(key)   
 end
 
 function love.mousepressed(x, y, button)
+    fg.mousepressed(button) 
+end
 
-  -- Specific binding - Transfer event to the level -- 
-  if levelIndex ~= -1 then
-    levels[levelIndex]:mousepressed(x, y, button)
-  end
+function love.mousereleased(x, y, button)
+    fg.mousereleased(button) 
+end
+
+function love.gamepadpressed(joystick, button)
+    fg.gamepadpressed(joystick, button)
+end
+
+function love.gamepadreleased(joystick, button)
+    fg.gamepadreleased(joystick, button)
+end
+
+function love.gamepadaxis(joystick, axis, newvalue)
+    fg.gamepadaxis(joystick, axis, newvalue)
+end
+
+function love.textinput(text)
+    fg.textinput(text)
+end
+
+function love.resize(w, h)
+    fg.resize(w, h)
+end
+
+function love.run()
+    math.randomseed(os.time())
+    math.random() math.random()
+    if love.math then love.math.setRandomSeed(os.time()) end
+    if love.event then love.event.pump() end
+    if love.load then love.load(arg) end
+    if love.timer then love.timer.step() end
+    fg.run()
 end
