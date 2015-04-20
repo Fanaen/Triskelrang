@@ -55,8 +55,8 @@ function Triskelrang:update(dt)
   self.rotation = self.rotation + (math.pi * 3 * dt)
   
   self.circlePosition = self.circlePosition + self.circleSpeed
-  self.x = self.circleCenter.x + math.cos(self.circlePosition) * self.circleRadius + self.radius
-  self.y = self.circleCenter.y + math.sin(self.circlePosition) * self.circleRadius + self.radius
+  self.x = self.circleCenter.x + math.cos(self.circlePosition) * self.circleRadius
+  self.y = self.circleCenter.y + math.sin(self.circlePosition) * self.circleRadius
   self.body:setX(self.x)
   self.body:setY(self.y)
   
@@ -71,9 +71,9 @@ end
 
 function Triskelrang:draw ()
   love.graphics.circle("fill", self.body:getX(), self.body:getY(), self.shape:getRadius())
-  love.graphics.circle("line", self.circleCenter.x + self.radius, self.circleCenter.y + self.radius, self.circleRadius)
-  love.graphics.circle("fill", self.circleCenter.x + self.radius, self.circleCenter.y + self.radius, 3)
-  love.graphics.line(self.circleCenter.x + self.radius, self.circleCenter.y + self.radius, self.x, self.y)
+  love.graphics.circle("line", self.circleCenter.x, self.circleCenter.y, self.circleRadius)
+  love.graphics.circle("fill", self.circleCenter.x, self.circleCenter.y, 3)
+  love.graphics.line(self.circleCenter.x, self.circleCenter.y, self.x, self.y)
   --love.graphics.draw(self.image, self.body:getX(), self.body:getY(), self.rotation, 1, 1, self.w/2, self.h/2)
   love.graphics.draw(self.image, self.x, self.y, self.rotation, 1, 1, self.w/2, self.h/2)
 end

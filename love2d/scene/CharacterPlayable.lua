@@ -54,9 +54,8 @@ function Character:onMove(x1, y1, x2, y2)
       x = triskelrang.circleCenter.x + (x2 - x1), 
       y = triskelrang.circleCenter.y + (y2 - y1)
     }
-    local newRadius = math.sqrt(math.pow(newCenter.x - triskelrang.x, 2) + math.pow(newCenter.y - triskelrang.y, 2)) - triskelrang.radius
-    print(newRadius)
-    local angle = math.atan2((triskelrang.x - newCenter.x + triskelrang.radius), (triskelrang.y - newCenter.y + triskelrang.radius))
+    local newRadius = math.sqrt(math.pow(triskelrang.x - newCenter.x, 2) + math.pow(triskelrang.y - newCenter.y, 2))
+    local angle = math.atan2((triskelrang.y - newCenter.y), (triskelrang.x - newCenter.x))
     
     triskelrang.circleSpeed = triskelrang.circleSpeed * (triskelrang.circleRadius / newRadius) 
     triskelrang.circleRadius = newRadius
@@ -94,7 +93,7 @@ function CharacterPlayable:throw(hand, mouse)
   end
   
   triskelrang.circlePosition = start
-  triskelrang.circleCenter = { x = direction.x + self.x, y = direction.y + self.y }
+  triskelrang.circleCenter = { x = direction.x + self.x + triskelrang.radius, y = direction.y + self.y + triskelrang.radius }
   triskelrang.circleSpeed = math.pi/100
   
   table.insert(self.triskelrangs,triskelrang)
