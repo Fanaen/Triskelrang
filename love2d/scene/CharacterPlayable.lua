@@ -8,9 +8,10 @@ require "scene/Triskelrang"
 CharacterPlayable = Character:new()
 
 function CharacterPlayable:new(o)
-  o = o or {}
+  o = o or Character:new()
   setmetatable(o, self)
   self.__index = self
+  self.__tostring = function() return "Player" end
   return o
 end
 
@@ -80,7 +81,7 @@ function CharacterPlayable:throw(hand, mouse)
   
   -- Box2D Physic --
   
-  --triskelrang:loadPhysic(self.world)
+  triskelrang:loadPhysic(self.world)
   --local forceCoef, force = 100, {x = 0, y = 0}
   
   --if mouse == nil then

@@ -3,6 +3,7 @@
 ------------------------
 
 Triskelrang = {
+  className   = "Triskelrang",
   x = 0, 
   y = 0, 
   w = 25, 
@@ -32,7 +33,6 @@ function Triskelrang:new (o)
   self.image = love.graphics.newImage("images/triskelrang.png")
   self.h = self.image:getHeight()
   self.w = self.image:getWidth()
-  
   return o
 end
 
@@ -43,6 +43,8 @@ function Triskelrang:loadPhysic(world)
   
   self.shape = love.physics.newCircleShape(self.radius)
   self.fixture = love.physics.newFixture(self.body, self.shape, 1)
+  self.fixture:setUserData(self)
+  --self.fixture:setSensor(true)
 end
 
 -- Methods --
@@ -55,6 +57,8 @@ function Triskelrang:update(dt)
   self.circlePosition = self.circlePosition + self.circleSpeed
   self.x = self.circleCenter.x + math.cos(self.circlePosition) * self.circleRadius + self.radius
   self.y = self.circleCenter.y + math.sin(self.circlePosition) * self.circleRadius + self.radius
+  self.body:setX(self.x)
+  self.body:setY(self.y)
   
   -- Box 2D physic --
   -- local x, y = self.body:getLinearVelocity()
@@ -66,7 +70,7 @@ function Triskelrang:update(dt)
 end
 
 function Triskelrang:draw ()
-  --love.graphics.circle("fill", self.body:getX(), self.body:getY(), self.shape:getRadius())
+  love.graphics.circle("fill", self.body:getX(), self.body:getY(), self.shape:getRadius())
   --love.graphics.draw(self.image, self.body:getX(), self.body:getY(), self.rotation, 1, 1, self.w/2, self.h/2)
   love.graphics.draw(self.image, self.x, self.y, self.rotation, 1, 1, self.w/2, self.h/2)
 end
