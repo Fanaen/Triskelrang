@@ -12,6 +12,7 @@ function CharacterPlayable:new(o)
   setmetatable(o, self)
   self.__index = self
   self.__tostring = function() return "Player" end
+  self.triskelrangs = {}
   return o
 end
 
@@ -41,11 +42,29 @@ end
 function CharacterPlayable:updateState(dt)
   self.walkTime = self.walkTime + dt
   
-  if(self.walkTime > 0.25) then
+  if self.walkTime > 0.25 then
     self.walkTime = self.walkTime - 0.25
     self:nextWalkState()
   end
 end
+
+function Character:onMove(x1, y1, x2, y2) 
+  for key, triskelrang in ipairs(self.triskelrangs) do
+    local newCenter = {
+      x = triskelrang.circleCenter.x + (x2 - x1), 
+      y = triskelrang.circleCenter.y + (y2 - y1)
+    }
+    local newRadius = math.sqrt(math.pow(newCenter.x - triskelrang.x, 2) + math.pow(newCenter.y - triskelrang.y, 2)) - triskelrang.radius
+    print(newRadius)
+    local angle = math.atan2((triskelrang.x - newCenter.x + triskelrang.radius), (triskelrang.y - newCenter.y + triskelrang.radius))
+    
+    triskelrang.circleSpeed = triskelrang.circleSpeed * (triskelrang.circleRadius / newRadius) 
+    triskelrang.circleRadius = newRadius
+    triskelrang.circlePosition = angle
+    triskelrang.circleCenter = newCenter
+  end
+end
+
 
 function CharacterPlayable:throw(hand, mouse)
   local triskelrang = Triskelrang:new()
@@ -76,8 +95,9 @@ function CharacterPlayable:throw(hand, mouse)
   
   triskelrang.circlePosition = start
   triskelrang.circleCenter = { x = direction.x + self.x, y = direction.y + self.y }
-  triskelrang.circleSpeed = math.pi/20
+  triskelrang.circleSpeed = math.pi/100
   
+  table.insert(self.triskelrangs,triskelrang)
   
   -- Box2D Physic --
   

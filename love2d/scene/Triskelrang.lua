@@ -71,6 +71,9 @@ end
 
 function Triskelrang:draw ()
   love.graphics.circle("fill", self.body:getX(), self.body:getY(), self.shape:getRadius())
+  love.graphics.circle("line", self.circleCenter.x + self.radius, self.circleCenter.y + self.radius, self.circleRadius)
+  love.graphics.circle("fill", self.circleCenter.x + self.radius, self.circleCenter.y + self.radius, 3)
+  love.graphics.line(self.circleCenter.x + self.radius, self.circleCenter.y + self.radius, self.x, self.y)
   --love.graphics.draw(self.image, self.body:getX(), self.body:getY(), self.rotation, 1, 1, self.w/2, self.h/2)
   love.graphics.draw(self.image, self.x, self.y, self.rotation, 1, 1, self.w/2, self.h/2)
 end

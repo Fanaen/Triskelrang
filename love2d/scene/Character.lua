@@ -9,7 +9,7 @@ Character = {
   w           = 25, 
   h           = 43, 
   life        = 100, 
-  speed       = 100,
+  speed       = 200,
   walkTime    = 0,
   walkState   = 0,
   walkStateNb = 1,
@@ -106,11 +106,18 @@ function Character:move(dt, horizontal, vertical)
   self:updateSprite()
   
   -- Move the character --
-  self.x = self.x + (horizontal * dt * self.speed)
-  self.y = self.y + (vertical * dt * self.speed)
-  self.body:setX(self.x + (self.w / 2))
-  self.body:setY(self.y + (self.h / 2))
+  if horizontal ~= 0 or vertical ~= 0 then
+    local x1, y1 = self.x, self.y
+    self.x = self.x + (horizontal * dt * self.speed)
+    self.y = self.y + (vertical * dt * self.speed)
+    self.body:setX(self.x + (self.w / 2))
+    self.body:setY(self.y + (self.h / 2))
+    
+    self:onMove(x1, y1, self.x, self.y)
+  end
 end
+
+function Character:onMove(x1, y1, x2, y2) end
 
 function Character:teleport(x, y)
   self.x = x
