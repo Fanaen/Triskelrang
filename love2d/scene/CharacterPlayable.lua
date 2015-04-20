@@ -54,23 +54,45 @@ function CharacterPlayable:throw(hand, mouse)
   triskelrang.y = self.y + (self.h/2) -- + (self.vertical * self.h)
   
   -- Custom physic --
+  
   -- triskelrang.speedx = triskelrang.speedx * self.horizontal
   -- triskelrang.speedy = triskelrang.speedy * self.vertical
   
-  -- Box2D Physic --
-  triskelrang:loadPhysic(self.world)
-  local forceCoef, force = 100, {x = 0, y = 0}
+  local distance, direction = 100, {x = 0, y = 0}
+  local start = 0
   
   if mouse == nil then
-    force.x = forceCoef * self.horizontal
-    force.y = forceCoef * self.vertical
+    direction.x = distance * self.horizontal
+    direction.y = distance * self.vertical
+    local angle = math.atan2(direction.x, direction.y)
+    start = angle - math.pi
   else 
     local angle = math.atan2((mouse.y - self.y), (mouse.x - self.x))
-    force.x = forceCoef * math.cos(angle)
-    force.y = forceCoef * math.sin(angle)
+    direction.x = distance * math.cos(angle)
+    direction.y = distance * math.sin(angle)
+    start = angle - math.pi
   end
   
-  triskelrang.body:applyLinearImpulse(force.x, force.y)
+  triskelrang.circlePosition = start
+  triskelrang.circleCenter = { x = direction.x + self.x, y = direction.y + self.y }
+  triskelrang.circleSpeed = math.pi/20
+  
+  
+  -- Box2D Physic --
+  
+  --triskelrang:loadPhysic(self.world)
+  --local forceCoef, force = 100, {x = 0, y = 0}
+  
+  --if mouse == nil then
+  --  force.x = forceCoef * self.horizontal
+  --  force.y = forceCoef * self.vertical
+  --else 
+  --  local angle = math.atan2((mouse.y - self.y), (mouse.x - self.x))
+  --  force.x = forceCoef * math.cos(angle)
+  --  force.y = forceCoef * math.sin(angle)
+  --end
+  
+  --triskelrang.body:applyLinearImpulse(force.x, force.y)
   
   return triskelrang
 end
